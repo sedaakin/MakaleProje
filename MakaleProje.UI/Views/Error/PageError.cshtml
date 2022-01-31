@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "PageError";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+<main class="container" style="width:30%">
+    <h2>Sayfa bulunamadı...</h2>
+
+    <div class="error mx-auto" data-text="@Response.StatusCode">@Response.StatusCode</div>
+
+    <div>
+        Hata Sebebi : @ViewBag.Kaynak
+    </div>
+</main>

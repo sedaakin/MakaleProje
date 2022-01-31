@@ -1,0 +1,52 @@
+﻿@model IEnumerable<MakaleProje.DTO.YorumDTO>
+
+@{
+    ViewBag.Title = "AdminIndex";
+    Layout = "~/Views/Shared/_LayoutPage2.cshtml";
+}
+
+<main class="container" style="width:90%">
+
+    @Html.Grid(Model).Columns(c =>
+{
+    c.Add(ct => ct.AdSoyad)
+        .Titled("Ad Soyad")
+        .Sortable(true)
+        .Sanitized(false);
+    c.Add(ct => ct.ZiyaretciMail)
+        .Titled("Mail")
+        .Sortable(true)
+        .Encoded(false)
+        .Sanitized(false);
+    c.Add(ct => ct.CreatedDate)
+        .Titled("Eklenme Tarihi")
+        .Sortable(true)
+        .Filterable(true)
+        .Encoded(false)
+        .Sanitized(false);
+    c.Add(ct => ct.YorumIcerik)
+        .Titled("Yorum")
+        .Sortable(true)
+        .Encoded(false)
+        .Sanitized(false);
+    c.Add(ct => ct.MakaleID)
+        .Titled("MakaleId")
+        .Sortable(true)
+        .Filterable(true)
+        .Encoded(false)
+        .Sanitized(false);
+    c.Add(ct => ct.Onay)
+        .Titled("Onay Durum")
+        .Sortable(true)
+        .Filterable(true)
+        .Encoded(false)
+        .Sanitized(false);
+    c.Add()
+        .Sortable(false)
+        .Filterable(false)
+        .Encoded(false)
+        .Sanitized(false)
+        .RenderValueAs(ct => @Html.ActionLink("Sil", "Delete", new { id = ct.YorumID }));
+}).WithPaging(4)
+</main>
+

@@ -1,0 +1,23 @@
+﻿@model MakaleProje.DTO.KullaniciDTO
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+<main class="container" style="width:30%">
+    <h2>Kullanıcı Giriş</h2>
+
+    <form method="post" action="/Login/Index">
+        Kullanıcı Adı:
+        @Html.TextBoxFor(a => a.KullaniciAd, new { @class = "form-control" })
+        <br />
+        Şifre:
+        @Html.PasswordFor(a => a.Sifre, new { @class = "form-control" })
+        <br />
+        Beni Hatırla 
+        @Html.CheckBox("rememberMe")
+        <br />
+        <a href="@Url.Action("ForgetMe","Login")">Beni Unut</a>     <input type="submit" name="name" class="btn btn-primary" value=" Giriş Yap " />
+
+    </form>
+    <b style="color:red">@ViewBag.Mesaj</b>
+</main>

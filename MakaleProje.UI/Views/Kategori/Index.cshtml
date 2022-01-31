@@ -1,0 +1,46 @@
+﻿@model IEnumerable<MakaleProje.DTO.KategoriDTO>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPage2.cshtml";
+}
+
+<main class="container" style="width:90%">
+
+    <p>
+        @Html.ActionLink("Yeni Makale", "Create")
+    </p>
+    @Html.Grid(Model).Columns(c =>
+{
+    c.Add(ct => ct.KategoriAd)
+        .Titled("Kategori Adı")
+        .Sortable(true)
+        .Encoded(false)
+        .Sanitized(false);
+    c.Add(ct => ct.UstKategoriID)
+        .Titled("Ust Kategori")
+        .Sortable(true)
+        .Filterable(true)
+        .Encoded(false)
+        .Sanitized(false);
+    c.Add(ct => ct.CreatedBy)
+       .Titled("Kaydeden")
+       .Sortable(true)
+       .Encoded(false)
+       .Sanitized(false);
+    c.Add(ct => ct.CreatedDate)
+        .Titled("Kayıt Zamanı")
+        .Sortable(true)
+        .Filterable(true)
+        .Encoded(false)
+        .Sanitized(false);
+    c.Add()
+       .Sortable(false)
+       .Filterable(false)
+       .Encoded(false)
+       .Sanitized(false)
+       .RenderValueAs(ct => Html.ActionLink("Güncelle", "Edit", new { id = ct.KategoriID }) + " | " + @Html.ActionLink("Sil", "Delete", new { id = ct.KategoriID }));
+}).WithPaging(5)
+</main>
+
+

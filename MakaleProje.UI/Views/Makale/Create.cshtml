@@ -1,0 +1,100 @@
+﻿@model MakaleProje.DTO.MakaleDTO
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutPage2.cshtml";
+}
+
+<script src="~/Scripts/jquery/jquery.min.js"></script>
+<script src="~/Scripts/ckeditor/ckeditor.js"></script>
+<script src="~/Scripts/ckeditor/ckfinder/ckfinder.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<main class="container" style="width:50%">
+
+    <h2>Yeni Makale</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.MakaleID)
+        @Html.HiddenFor(model => model.YazarID)
+        @Html.HiddenFor(model => model.AktifMi)
+        @Html.HiddenFor(model => model.CreatedBy)
+        @Html.HiddenFor(model => model.CreatedDate)
+        @Html.HiddenFor(model => model.ModifiedBy)
+        @Html.HiddenFor(model => model.ModifiedDate)
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.DisplayName("Üst Kategori")
+                <div class="col-md-10">
+                    @Html.DropDownList("UstKategori", ViewBag.UstKategori as SelectList, "Seçiniz", new { @class = "form-control", @id = "UstKategori" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.DisplayNameFor(a => a.KategoriID)
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.KategoriID, new SelectList(""), "Seçiniz", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.KategoriID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.DisplayNameFor(a => a.MakaleBaslik)
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.MakaleBaslik, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.MakaleBaslik, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.DisplayNameFor(a => a.MakaleMetni)
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.MakaleMetni, new { @class = "form-control", @id = "editor1" })
+                    <script>
+                        CKEDITOR.replace("MakaleMetni");
+                    </script>
+                    @Html.ValidationMessageFor(model => model.MakaleMetni, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Ekle" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+
+    }
+
+    <div>
+        @Html.ActionLink("Listeye Dön", "Index")
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#UstKategori').change(function () {
+                var ustKategori = $(this).val();
+
+                $.ajax({
+                    type: "post",
+                    url: "/Kategori/AltKategori?id=" + ustKategori,
+                    contentType: "html",
+                    success: function (response) {
+                        console.log(response);
+                        $("#KategoriID").empty()
+                        $.each(response, function (i, item) {
+                            $('#KategoriID').append($('<option>', {
+                                value: item.Value,
+                                text: item.Text
+                            }));
+                        });
+                    }
+                })
+            });
+        });
+
+
+    </script>
+
+</main>
